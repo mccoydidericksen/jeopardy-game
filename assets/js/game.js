@@ -1,4 +1,4 @@
-
+const grid = $("#game-grid")
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -10,9 +10,13 @@ fetch(stickerUrl)
   .then(function (data) {
     console.log(data);
     // get sticker url from giphy stickers api
-    var sticker= data.data[0].images.fixed_height_small.url;
-    // add sticker to img tag
-    $(id).attr("src", sticker);
+      if (data.data.length > 0) {
+          var sticker= data.data[0].images.fixed_height_small.url;
+          // add sticker to img tag
+          $(id).attr("src", sticker);
+      } else {
+          $(id).attr("src","placeholder-url fro no gif found")
+      }
   });
 }
 
@@ -30,17 +34,20 @@ function getRandomTriviaData() {
         let promise = fetch(categoryUrl)
         .then(function(response) {
             return response.json()
-        .then(function(data){
-            let triviaObj = {
-                category: data.title,
-                questions: {}
-            }
-            let categoryQuestions = data.clues;
-            // building question object with keys of the difficulty value
-            for(let i=0; i<categoryQuestions.length; i++){
-                triviaObj.questions[categoryQuestions[i].value] = categoryQuestions[i];
-            }
-            return triviaObj
+                .then(function (data) {
+                    let questions = {}
+                    let categoryQuestions = data.clues;
+                    // building question object with keys of the difficulty value
+                    for(let i=0; i<categoryQuestions.length; i++){
+                        questions[categoryQuestions[i].value] = categoryQuestions[i];
+                    }
+                    let triviaObj = {
+                        category: data.title,
+                        questions: Object.entries(questions).sort(function (a, b) {
+                            return a[0]-b[0]
+                        })
+                    }
+                return triviaObj
             })
         })
         triviaData.push(promise);
@@ -52,12 +59,25 @@ function getRandomTriviaData() {
 // example of calling function
 // var triviaData = getRandomTriviaData().then(console.log);
 // console.log(triviaData);
-
+function onQuestionClicked(categoryIndex, questionIndex, question, element) {
+    let btn = $(element);
+    if (btn.attr("data-picked")) return;
+    btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md")
+    btn.attr("data-picked", true);
+    console.log(question,categoryIndex,questionIndex,element)
+}
 
 getRandomTriviaData().then(function (questions) {
     for (let i = 0; i < questions.length; i++){
-        getStickers("#img-"+(i+1),encodeURIComponent(questions[i].category))
+        getStickers("#img-" + (i + 1), encodeURIComponent(questions[i].category))
+        let children = grid.children().eq(i);
+        children.children("p").text(questions[i].category)
+        children.children("button").each(function (index, element) {
+            $(element).on("click", function (e) {
+                onQuestionClicked(i,index,questions[i].questions[index][1],element)
+            });
+        })
+        
     }
-    console.log(questions)
 })
 
