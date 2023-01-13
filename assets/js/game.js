@@ -1,5 +1,6 @@
 
-
+//returns array of objects with 4 random trivia categories 
+//each object in the array stores the category title and associated questions object
 function getRandomTriviaData() {
     let triviaData = [];
     const categoryCnt = 28163;
