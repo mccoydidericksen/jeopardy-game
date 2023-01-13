@@ -33,7 +33,7 @@ function getHighScores() {
 		}
 
 		for (let i = 0; i < records.length; i++) {
-			if (typeof records[i].name !== "string" && typeof records[i].score !== "number") {
+			if (typeof records[i].name !== "string" || typeof records[i].score !== "number") {
 				// if any records are non complient delete them;
 				records.splice(i, 1);
 				i--;
