@@ -9,9 +9,9 @@ function getRandomTriviaData() {
         //gets random category id (categoryCnt is the total amount of categories available)
         let randomInt = Math.floor(Math.random() * (categoryCnt - 1) + 1);
         let categoryUrl = 'https://jservice.io/api/category?id=' + randomInt;
-        fetch(categoryUrl)
+        let promise = fetch(categoryUrl)
         .then(function(response) {
-            response.json()
+            return response.json()
         .then(function(data){
             let triviaObj = {
                 category: data.title,
@@ -22,10 +22,16 @@ function getRandomTriviaData() {
             for(let i=0; i<categoryQuestions.length; i++){
                 triviaObj.questions[categoryQuestions[i].value] = categoryQuestions[i];
             }
-            triviaData.push(triviaObj);
+            return triviaObj
             })
         })
+        triviaData.push(promise);
     }
-    return triviaData;
+    // returns multiple promises (from all api calls) as one promise
+    return Promise.all(triviaData);
 }
+
+// example of calling function
+// var triviaData = getRandomTriviaData().then(console.log);
+// console.log(triviaData);
 
