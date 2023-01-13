@@ -7,12 +7,21 @@
 		<!-- added tailwind cdn -->
 		<script src="https://cdn.tailwindcss.com"></script>
 		<title>Jeapordy Game</title>
-		<link href="./dist/output.css" rel="stylesheet">
+		<!-- <link href="./dist/output.css" rel="stylesheet"> -->
+		<link rel="stylesheet" href="./assets/css/main.css">
 	</head>
-	<body>
-		<h1 class="text-3xl font-bold underline bg-slate-50">
-			Hello world!
-		  </h1>
+	<body class="bg-gray-800">
+        <div class="container mx-auto" id="main-container">
+			<div class="text-9xl font-extrabold flex justify-center items-center">
+				<span class="animate-bounce bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mx-auto my-auto">
+				  Jeopard Game!
+				</span>
+			</div>
+			<div class="flex justify-center items-center">
+				<button class="animate-pulse text-5xl text-white p-2 rounded mx-auto" id="startButton">START GAME</button>
+			</div>
+		</div>
+
 		<script src="./assets/js/main.js"></script>
 	</body>
 </html>
