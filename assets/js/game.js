@@ -1,8 +1,8 @@
 
 // function that gets stickers from giphy api
-function getStickers(str){
+function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
-var stickerUrl = "https://api.giphy.com/v1/stickers/search?q=" + str + "&api_key=" + giphyApiKey
+var stickerUrl = "https://api.giphy.com/v1/gifs/search?q=" + str + "&api_key=" + giphyApiKey + "&rating=g,pg-13"
 fetch(stickerUrl)
   .then(function (response) {
     return response.json();
@@ -12,11 +12,9 @@ fetch(stickerUrl)
     // get sticker url from giphy stickers api
     var sticker= data.data[0].images.fixed_height_small.url;
     // add sticker to img tag
-    $("img").attr("src", sticker);
+    $(id).attr("src", sticker);
   });
 }
-
-getStickers("cat")
 
 
 //returns array of objects with 4 random trivia categories 
@@ -55,4 +53,11 @@ function getRandomTriviaData() {
 // var triviaData = getRandomTriviaData().then(console.log);
 // console.log(triviaData);
 
+
+getRandomTriviaData().then(function (questions) {
+    for (let i = 0; i < questions.length; i++){
+        getStickers("#img-"+(i+1),encodeURIComponent(questions[i].category))
+    }
+    console.log(questions)
+})
 
