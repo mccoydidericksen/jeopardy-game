@@ -64,7 +64,8 @@ function onQuestionClicked(categoryIndex, questionIndex, question, element) {
     if (btn.attr("data-picked")) return;
     btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md")
     btn.attr("data-picked", true);
-    console.log(question,categoryIndex,questionIndex,element)
+    console.log(question, categoryIndex, questionIndex, element)
+    // TODO: modal stuff here
 }
 
 getRandomTriviaData().then(function (questions) {
@@ -77,7 +78,6 @@ getRandomTriviaData().then(function (questions) {
                 onQuestionClicked(i,index,questions[i].questions[index][1],element)
             });
         })
-        
     }
 })
 
