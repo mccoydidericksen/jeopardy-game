@@ -1,4 +1,4 @@
-const grid = $("#game-grid")
+const grid = $("#game-grid");
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -10,17 +10,16 @@ fetch(stickerUrl)
   .then(function (data) {
     // get sticker url from giphy stickers api
       if (data.data.length > 0) {
-          var sticker= data.data[0].images.fixed_height_small.url;
-          // add sticker to img tag
-          $(id).attr("src", sticker);
+        var sticker = data.data[0].images.fixed_height_small.url;
+        // add sticker to img tag
+        $(id).attr("src", sticker);
       } else {
-          $(id).attr("src","placeholder-url fro no gif found")
+        $(id).attr("src", "placeholder-url fro no gif found");
       }
-  });
+    });
 }
 
-
-//returns array of objects with 4 random trivia categories 
+//returns array of objects with 4 random trivia categories
 //each object in the array stores the category title and associated questions object
 function getRandomTriviaData() {
     let triviaData = [];
@@ -71,24 +70,40 @@ function getRandomTriviaData() {
 }
 
 function onQuestionClicked(categoryIndex, questionIndex, question, element) {
-    let btn = $(element);
-    if (btn.attr("data-picked")) return;
-    btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md")
-    btn.attr("data-picked", true);
-    console.log(question, categoryIndex, questionIndex, element)
-    // TODO: modal stuff here
+  let btn = $(element);
+  if (btn.attr("data-picked")) return;
+  btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md");
+  btn.attr("data-picked", true);
+  console.log(question, categoryIndex, questionIndex, element);
+  // TODO: modal stuff here
 }
 
 getRandomTriviaData().then(function (questions) {
-    for (let i = 0; i < questions.length; i++){
-        getStickers("#img-" + (i + 1), encodeURIComponent(questions[i].category))
-        let children = grid.children().eq(i);
-        children.children("p").text(questions[i].category)
-        children.children("button").each(function (index, element) {
-            $(element).on("click", function (e) {
-                onQuestionClicked(i,index,questions[i].questions[index][1],element)
-            });
-        })
-    }
-})
+  for (let i = 0; i < questions.length; i++) {
+    getStickers("#img-" + (i + 1), encodeURIComponent(questions[i].category));
+    let children = grid.children().eq(i);
+    children.children("p").text(questions[i].category);
+    children.children("button").each(function (index, element) {
+      $(element).on("click", function (e) {
+        onQuestionClicked(i, index, questions[i].questions[index][1], element);
+      });
+    });
+  }
+});
 
+
+function addScoreToLocalStorage(endScore) {
+    // if localStorage has some score, push the new score
+  if (localStorage.getItem("totalScoreStringify")) {
+    let totalScore = JSON.parse(localStorage.getItem("totalScoreStringify"));
+    totalScore["score"].push(endScore);
+    localStorage.setItem("totalScoreStringify", JSON.stringify(totalScore));
+  }
+    // if no score in localStorage, create totalScore object with score property and add new score    
+  else {
+    let totalScore = {
+      score: [endScore],
+    };
+    localStorage.setItem("totalScoreStringify", JSON.stringify(totalScore));
+  }
+}
