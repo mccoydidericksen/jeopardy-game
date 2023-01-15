@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- added tailwind cdn -->
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Jeapordy Game</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
@@ -19,7 +18,7 @@
     <div class="container mx-auto flex flex-col h-screen my-auto justify-center" id="main-container">
       <div class="text-9xl font-extrabold flex justify-center items-center">
         <span
-          class="animate-bounce bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mx-auto my-auto pb-48"
+          class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mx-auto my-auto pb-48"
         >
           Jeopardy Game!
         </span>
@@ -32,7 +31,58 @@
           START GAME
         </button>
       </div>
+    <div class="flex">
+      <div class="flex flex-col justify-center items-center bg-gray-700 text-white rounded-lg p-6 m-4 w-1/2">
+        <h2 class="text-lg font-medium mb-4">Global High Scores</h2>
+        <table>
+          <thead>
+            <tr>
+              <th class="text-left px-4 py-2">Rank</th>
+              <th class="text-left px-4 py-2">Player</th>
+              <th class="text-left px-4 py-2">Score</th>
+            </tr>
+          </thead>
+          <tbody id="global-table">
+            <tr class="border-t hover:bg-gray-400">
+              <td class="text-left px-4 py-2">1</td>
+              <td class="text-left px-4 py-2">John Doe</td>
+              <td class="text-left px-4 py-2">1000</td>
+            </tr>
+            <tr class="border-t hover:bg-gray-400">
+              <td class="text-left px-4 py-2">2</td>
+              <td class="text-left px-4 py-2">Jane Smith</td>
+              <td class="text-left px-4 py-2">900</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex flex-col justify-center items-center bg-gray-700 text-white rounded-lg p-6 m-4 w-1/2">
+        <h2 class="text-lg font-medium mb-4">Local High Scores</h2>
+        <table class="local-table">
+          <thead>
+            <tr>
+              <th class="text-left px-4 py-2">Rank</th>
+              <th class="text-left px-4 py-2">Player</th>
+              <th class="text-left px-4 py-2">Score</th>
+            </tr>
+          </thead>
+          <tbody id="local-table">
+            <tr class="border-t hover:bg-gray-400">
+              <td class="text-left px-4 py-2">1</td>
+              <td class="text-left px-4 py-2">John Doe</td>
+              <td class="text-left px-4 py-2">1000</td>
+            </tr>
+            <tr class="border-t hover:bg-gray-400">
+              <td class="text-left px-4 py-2">2</td>
+              <td class="text-left px-4 py-2">Jane Smith</td>
+              <td class="text-left px-4 py-2">900</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+
 
     <script src="./assets/js/main.js"></script>
     <script src="./assets/js/game.js"></script>
