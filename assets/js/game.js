@@ -68,14 +68,15 @@ function onQuestionClicked(categoryIndex, questionIndex, question, element) {
     // TODO: modal stuff here
 }
 
-getRandomTriviaData().then(function (questions) {
-    for (let i = 0; i < questions.length; i++){
-        getStickers("#img-" + (i + 1), encodeURIComponent(questions[i].category))
+getRandomTriviaData().then(function (categories) {
+    for (let i = 0; i < categories.length; i++){
+        getStickers("#img-" + (i + 1), encodeURIComponent(categories[i].category))
         let children = grid.children().eq(i);
-        children.children("p").text(questions[i].category)
-        children.children("button").each(function (index, element) {
+        $("#desc-"+(i+1)).text(categories[i].category)
+        let x = $("button[data-q=" + i + "]");
+        x.each(function (index, element) {
             $(element).on("click", function (e) {
-                onQuestionClicked(i,index,questions[i].questions[index][1],element)
+                onQuestionClicked(i,index,categories[i].questions[index][1],element)
             });
         })
     }
