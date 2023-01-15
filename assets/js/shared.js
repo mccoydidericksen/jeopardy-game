@@ -1,5 +1,16 @@
 var accessKey = "$2b$10$BHy89/CS.uMnQ28sL81y3eVz1aDA8zOTut5P25BkeZXQ49UArOIDu";
 
+tailwind.config = {
+	theme: {
+	  extend: {
+		  screens: {
+			  'sm': '500px',
+			  'md': '870px'
+		  }
+	  }
+	}
+  }
+
 var getSettings = {
 	url: "https://api.jsonbin.io/v3/b/63bf22d215ab31599e33e835",
 	method: "GET",
