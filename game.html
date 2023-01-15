@@ -29,73 +29,65 @@
 	</head>
     <body class="bg-gray-800">
         <div class="container mx-auto">
-            <div id="game-grid" class="grid grid-cols-4 gap-1 pt-3">
-                    <!-- <div id="game-grid" class="flex md:flex-row sm:flex-col items-center justify-center"> -->
-                        <!-- <div class="flex flex-col items-center justify-center"> -->
-                            <div class="flex justify-center items-center">
-                                <img id="img-1" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <img id="img-3" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <img id="img-2" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <img id="img-4" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
-                            </div>
-                            <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category1</p>
-                            <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category2</p>
-                            <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category3</p>
-                            <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category4</p>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
-                        <!-- </div> -->
-                        <!-- <div class="flex flex-col items-center justify-center"> -->
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
-                        <!-- </div> -->
-                        <!-- <div class="flex flex-col items-center justify-center"> -->
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
-                        <!-- </div> -->
-                        <!-- <div class="flex flex-col items-center justify-center"> -->
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
-                            <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
-                        <!-- </div> -->
-                    </div>
+            <div id="game-grid">
+                <div class="flex justify-center items-center flex-col">
+                    <img id="img-1" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
+                    <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category1</p>
                 </div>
-                <div class="relative z-10" aria-labelledby="Question" role="dialog" aria-modal="true" hidden>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                    <div class="fixed inset-0 z-10 overflow-y-auto">
-                      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-4">
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
 
-                            <!-- modal content -->
-                            <h1 class="text-xl p-4"><strong>{{category}} - {{points}}</strong></h1>
-                            <h2 class="text-xl p-4">{{question}}</h2>
-                            <input placeholder="Your answer here" class="p-4">
-                            <div class="flex justify-between w-full p-4">
-                                <button>{{?}}</button>
-                                <button>submit</button>
-                            </div>
-
-                        </div> 
-                      </div>
-                    </div>
+                <div class="flex justify-center items-center flex-col">
+                    <img id="img-3" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
+                    <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category2</p>
                 </div>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
+                <div class="flex justify-center items-center flex-col">
+                    <img id="img-2" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
+                    <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category3</p>
+                </div>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
+                <div class="flex justify-center items-center flex-col">
+                    <img id="img-4" src="https://giphy.com/embed/JtM4TBYqkCIAoIzsqt" class="w-1/2 max-h-[150px]" alt="trivia sticker"></img>
+                    <p class="bg-gray-500 text-white p-2 m-4 rounded-md">Category4</p>
+                </div>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">100</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">200</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">300</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">400</button>
+                <button class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
+            </div>
+        </div>
+        <div class="relative z-10" aria-labelledby="Question" role="dialog" aria-modal="true" hidden>
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-4">
+
+                    <!-- modal content -->
+                    <h1 class="text-xl p-4"><strong>{{category}} - {{points}}</strong></h1>
+                    <h2 class="text-xl p-4">{{question}}</h2>
+                    <input placeholder="Your answer here" class="p-4">
+                    <div class="flex justify-between w-full p-4">
+                        <button>{{?}}</button>
+                        <button>submit</button>
+                    </div>
+
+                </div> 
+                </div>
+            </div>
+        </div>
 		<script src="./assets/js/game.js"></script>
 	</body>
 </html>
