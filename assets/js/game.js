@@ -100,13 +100,15 @@ function displayHint(answer) {
   $("#display-hint").text("hint: " + hint.join(""));
 }
 
-function checkAnswer(answer, pointValue){
-  if (answer.toLowerCase() === question.answer.toLowerCase()) {
+function checkAnswer(answer, userAnswer, pointValue, btn){
+  if (userAnswer.toLowerCase() === answer.toLowerCase()) {
     score += pointValue;
     displayScore();
+    btn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
   } else {
     score -= pointValue;
     displayScore();
+    btn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
   }
 }
 
@@ -117,10 +119,10 @@ function displayScore() {
 function onQuestionClicked(categoryIndex, questionIndex, category,question, element) {
   let btn = $(element);
   if (btn.attr("data-picked")) return;
-  btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md");
   btn.attr("data-picked", true);
   console.log(question, categoryIndex, questionIndex, element);
-  $("#modal-answer").text("");
+  $("#modal-answer").val("");
+  $("#display-hint").text("");
   $("#modal-question").text(question.question);
   $("#modal-category").text(category);
   $("#modal-points").text(100*(questionIndex + 1));
@@ -130,6 +132,14 @@ function onQuestionClicked(categoryIndex, questionIndex, category,question, elem
   hintBtn.on("click", function () {
     displayHint(question.answer);
   });
+  $("#modal-submit").on("click", function (e) {
+    e.preventDefault();
+    let answer = question.answer;
+    let userAnswer = $("#modal-answer").val();
+    let pointValue = 100*(questionIndex + 1);
+    checkAnswer(answer, userAnswer, pointValue, btn);
+    closeModal();
+  });
 }
 
 function closeModal() {
@@ -138,14 +148,7 @@ function closeModal() {
   $("#modal").attr("hidden", true);
 }
 
-$("#modal-submit").on("click", function (e) {
-  e.preventDefault();
-  let answer = $("#answerInput").val();
-  let pointValue = $("#modal-points").text();
-  pointValue.substring(pointValue.length - 4, pointValue.length - 1);
-  checkAnswer(answer, parseInt(pointValue));
-  closeModal();
-});
+
 
 getRandomTriviaData().then(function (categories) {
     for (let i = 0; i < categories.length; i++){
