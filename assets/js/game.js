@@ -5,6 +5,8 @@ let currentPointValue = 0;
 let currentBtn = null;
 let hintsLeft = 5;
 let currentHintsLeft = 0;
+let questionHistory = {};
+let questionCount = 0;
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -116,15 +118,21 @@ function displayHint(answer) {
 }
 
 function checkAnswer(userAnswer){
+  questionCount++;
+  let decisionMessage = "";
   if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
     score += currentPointValue;
     displayScore();
     currentBtn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
+    decisionMessage = "✅";
   } else {
     score -= currentPointValue;
     displayScore();
     currentBtn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
+    decisionMessage = "❌";
   }
+  questionHistory[questionCount] = {question: currentQuestion.question, answer: currentQuestion.answer, userAnswer: userAnswer, "correct?": decisionMessage};
+  console.log(questionHistory);
 }
 
 function displayScore() {
@@ -161,7 +169,6 @@ $("#modal-submit").on("click", function (e) {
 });
 
 function closeModal() {
-  
   $("body").attr("style","");
   $("#modal").attr("hidden", true);
 }
