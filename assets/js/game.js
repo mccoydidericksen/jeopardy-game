@@ -132,7 +132,9 @@ function checkAnswer(userAnswer){
     decisionMessage = "❌";
   }
   questionHistory[questionCount] = {question: currentQuestion.question, answer: currentQuestion.answer, userAnswer: userAnswer, "correct?": decisionMessage};
-  console.log(questionHistory);
+  if(questionCount === 20) {
+    endGame();
+  }
 }
 
 function displayScore() {
@@ -205,3 +207,23 @@ function addScoreToLocalStorage(endScore) {
     localStorage.setItem("totalScoreStringify", JSON.stringify(totalScore));
   }
 }
+
+function endGame() {
+  $("#end-score").text(score);
+  console.log(questionHistory);
+  for(let i = 1; i < questionCount + 1; i++) {
+    $("#end-table").append(
+      `<tr class="border-t hover:bg-gray-400">
+        <td title="${questionHistory[i].question}" class="underline text-left px-6 py-2">${i}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i].answer}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i].userAnswer}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i]['correct?']}</td>
+      </tr>`
+    );
+  }
+  $("#end-modal").attr("hidden", false);
+}
+
+setTimeout(function () {
+  endGame();
+}, 10 * 1000);
