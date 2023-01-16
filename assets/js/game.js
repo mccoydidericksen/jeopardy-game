@@ -4,9 +4,10 @@ let currentQuestion = {};
 let currentPointValue = 0;
 let currentBtn = null;
 let hintsLeft = 5;
-let currentHintsLeft = 0;
+let questionHintHistory = {};
 let questionHistory = {};
 let questionCount = 0;
+let hintBtn = $("#modal-hint");
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -77,12 +78,18 @@ function getRandomTriviaData() {
     return Promise.all(triviaData);
 }
 
-function displayHint(answer) {
+function displayHint() {
+  let answer = currentQuestion.answer;
+  if(questionHintHistory[questionCount]) {
+    questionHintHistory[questionCount]++;
+  } else {
+    questionHintHistory[questionCount] = 1;
+  }
   if (hintsLeft === 0){
     $("#modal-hint").text("no more hints");
     return;
   }
-  if (currentHintsLeft === 0) {
+  else if (questionHintHistory[questionCount] > 2) {
     $("#modal-hint").text("only 2 hints per question");
     return;
   }
@@ -114,11 +121,9 @@ function displayHint(answer) {
   }
   $("#display-hint").text("hint: " + hint.join(""));
   hintsLeft--;
-  currentHintsLeft--;
 }
 
 function checkAnswer(userAnswer){
-  questionCount++;
   let decisionMessage = "";
   if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
     score += currentPointValue;
@@ -142,6 +147,7 @@ function displayScore() {
 }
 
 function onQuestionClicked(categoryIndex, questionIndex, category, question, element) {
+  questionCount++;
   currentBtn = $(element);
   if (currentBtn.attr("data-picked")) return;
   currentBtn.attr("data-picked", true);
@@ -156,12 +162,12 @@ function onQuestionClicked(categoryIndex, questionIndex, category, question, ele
   $("#modal").attr("hidden", false);
   $("body").css("overflow", "hidden");
   $("#modal-hint").text("need a hint? (hints remaining: " + hintsLeft + ")");
-  let hintBtn = $("#modal-hint");
-  currentHintsLeft = 2;
-  hintBtn.on("click", function () {
-    displayHint(question.answer);
-  });
+  $("#display-hint").text("");
 }
+
+hintBtn.on("click", function () {
+  displayHint();
+});
 
 $("#modal-submit").on("click", function (e) {
   e.preventDefault();
