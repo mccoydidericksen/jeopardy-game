@@ -1,4 +1,5 @@
 const grid = $("#game-grid");
+let score = 0;
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -67,6 +68,40 @@ function getRandomTriviaData() {
     }
     // returns multiple promises (from all api calls) as one promise
     return Promise.all(triviaData);
+}
+
+function displayHint(answer) {
+  let hint = "";
+  let showList = [];
+  let numShow = Math.floor(answer.length / 3);
+  for (let i = 0; i < numShow; i++) {
+    let rand = Math.floor(Math.random() * answer.length);
+    if(showList.includes(rand)) {
+      i--;
+      continue;
+    }
+    showList.push(rand);
+  }
+  for (let i = 0; i < answer.length; i++) {
+    if (answer[i] === " ") {
+      hint += " ";
+    }
+    else if (answer[i] === "-"){
+      hint += "-";
+    } else {
+      hint += "_";
+    }
+  }
+  hint = hint.split("");
+  answer = answer.split("");
+  for (let i = 0; i < showList.length; i++) {
+    hint[showList[i]] = answer[showList[i]];
+  }
+  $("#modalHint").text("hint: " + hint.join(""));
+}
+
+function displayScore() {
+  $("#score").text(score);
 }
 
 function onQuestionClicked(categoryIndex, questionIndex, category,question, element) {
