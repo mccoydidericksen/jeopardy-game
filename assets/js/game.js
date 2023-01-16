@@ -69,6 +69,15 @@ function getRandomTriviaData() {
     return Promise.all(triviaData);
 }
 
+function stripHtml(html) {
+  // create a dummy container
+  var tmp = $("<div>");
+  // add the content to the container as html
+  $(html).appendTo(tmp);
+  // return the text of the container without the html
+  return tmp.text()
+}
+
 function onQuestionClicked(categoryIndex, questionIndex, category,question, element) {
   let btn = $(element);
   if (btn.attr("data-picked")) return;
