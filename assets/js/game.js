@@ -69,14 +69,30 @@ function getRandomTriviaData() {
     return Promise.all(triviaData);
 }
 
-function onQuestionClicked(categoryIndex, questionIndex, question, element) {
+function onQuestionClicked(categoryIndex, questionIndex, category,question, element) {
   let btn = $(element);
   if (btn.attr("data-picked")) return;
   btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md");
   btn.attr("data-picked", true);
   console.log(question, categoryIndex, questionIndex, element);
   // TODO: modal stuff here
+  $("#modal-question").text(question.question);
+  $("#modal-category").text(category);
+  $("#modal-points").text(100*(questionIndex + 1));
+  $("#modal").attr("hidden", false);
+  $("body").css("overflow", "hidden");
 }
+
+function closeModal() {
+  
+  $("body").attr("style","");
+  $("#modal").attr("hidden", true);
+}
+
+$("#modal-submit").on("click", function (e) {
+  e.preventDefault();
+  closeModal();
+});
 
 getRandomTriviaData().then(function (categories) {
     for (let i = 0; i < categories.length; i++){
@@ -86,7 +102,7 @@ getRandomTriviaData().then(function (categories) {
         let x = $("button[data-q=" + i + "]");
         x.each(function (index, element) {
             $(element).on("click", function (e) {
-                onQuestionClicked(i,index,categories[i].questions[index][1],element)
+                onQuestionClicked(i,index,categories[i].category,categories[i].questions[index][1],element)
             });
         })
     }
