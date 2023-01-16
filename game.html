@@ -6,6 +6,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 		<script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                    screens: {
+                        'sm': '500px',
+                        'md': '870px'
+                    }
+                }
+              }
+            }
+          </script>
           <link rel="stylesheet" href="./assets/css/main.css" />
           <script
           src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -62,18 +74,18 @@
                 <p class="text-white ">Score: <span class="whitespace-no-wrap flex-1">0</span></p>
             </div>
         </div>
-        <div class="relative z-10" aria-labelledby="Question" role="dialog" aria-modal="true" hidden>
+        <div class="relative z-10" aria-labelledby="Question" role="dialog" aria-modal="true" hidden id="modal">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-10 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-4">
 
-                    <h1 class="text-xl p-4"><strong>{{category}} - {{points}}</strong></h1>
-                    <h2 class="text-xl p-4">{{question}}</h2>
+                    <h1 class="text-xl p-4"><strong><span id="modal-category"></span> - <span id="modal-points"></span></strong></h1>
+                    <h2 class="text-xl p-4"><span id="modal-question"></span></h2>
                     <input placeholder="Your answer here" class="p-4">
                     <div class="flex justify-between w-full p-4">
-                        <button>{{?}}</button>
-                        <button>submit</button>
+                        <button id="modal-hint">?</button>
+                        <button id="modal-submit">submit</button>
                     </div>
 
                 </div> 
