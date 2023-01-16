@@ -97,7 +97,17 @@ function displayHint(answer) {
   for (let i = 0; i < showList.length; i++) {
     hint[showList[i]] = answer[showList[i]];
   }
-  $("#modalHint").text("hint: " + hint.join(""));
+  $("#display-hint").text("hint: " + hint.join(""));
+}
+
+function checkAnswer(answer, pointValue){
+  if (answer.toLowerCase() === question.answer.toLowerCase()) {
+    score += pointValue;
+    displayScore();
+  } else {
+    score -= pointValue;
+    displayScore();
+  }
 }
 
 function displayScore() {
@@ -110,12 +120,16 @@ function onQuestionClicked(categoryIndex, questionIndex, category,question, elem
   btn.attr("class", "bg-gray-700 text-white p-10 px-20 m-4 rounded-md");
   btn.attr("data-picked", true);
   console.log(question, categoryIndex, questionIndex, element);
-  // TODO: modal stuff here
+  $("#modal-answer").text("");
   $("#modal-question").text(question.question);
   $("#modal-category").text(category);
   $("#modal-points").text(100*(questionIndex + 1));
   $("#modal").attr("hidden", false);
   $("body").css("overflow", "hidden");
+  let hintBtn = $("#modal-hint");
+  hintBtn.on("click", function () {
+    displayHint(question.answer);
+  });
 }
 
 function closeModal() {
@@ -126,6 +140,10 @@ function closeModal() {
 
 $("#modal-submit").on("click", function (e) {
   e.preventDefault();
+  let answer = $("#answerInput").val();
+  let pointValue = $("#modal-points").text();
+  pointValue.substring(pointValue.length - 4, pointValue.length - 1);
+  checkAnswer(answer, parseInt(pointValue));
   closeModal();
 });
 
