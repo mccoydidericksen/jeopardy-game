@@ -1,5 +1,10 @@
 const grid = $("#game-grid");
 let score = 0;
+let currentQuestion = {};
+let currentPointValue = 0;
+let currentBtn = null;
+let hintsLeft = 5;
+let currentHintsLeft = 0;
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -71,6 +76,14 @@ function getRandomTriviaData() {
 }
 
 function displayHint(answer) {
+  if (hintsLeft === 0){
+    $("#modal-hint").text("no more hints");
+    return;
+  }
+  if (currentHintsLeft === 0) {
+    $("#modal-hint").text("only 2 hints per question");
+    return;
+  }
   let hint = "";
   let showList = [];
   let numShow = Math.floor(answer.length / 3);
@@ -98,17 +111,19 @@ function displayHint(answer) {
     hint[showList[i]] = answer[showList[i]];
   }
   $("#display-hint").text("hint: " + hint.join(""));
+  hintsLeft--;
+  currentHintsLeft--;
 }
 
-function checkAnswer(answer, userAnswer, pointValue, btn){
-  if (userAnswer.toLowerCase() === answer.toLowerCase()) {
-    score += pointValue;
+function checkAnswer(userAnswer){
+  if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+    score += currentPointValue;
     displayScore();
-    btn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
+    currentBtn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
   } else {
-    score -= pointValue;
+    score -= currentPointValue;
     displayScore();
-    btn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
+    currentBtn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
   }
 }
 
@@ -116,10 +131,12 @@ function displayScore() {
   $("#score").text(score);
 }
 
-function onQuestionClicked(categoryIndex, questionIndex, category,question, element) {
-  let btn = $(element);
-  if (btn.attr("data-picked")) return;
-  btn.attr("data-picked", true);
+function onQuestionClicked(categoryIndex, questionIndex, category, question, element) {
+  currentBtn = $(element);
+  if (currentBtn.attr("data-picked")) return;
+  currentBtn.attr("data-picked", true);
+  currentQuestion = question;
+  currentPointValue = 100*(questionIndex + 1);
   console.log(question, categoryIndex, questionIndex, element);
   $("#modal-answer").val("");
   $("#display-hint").text("");
@@ -128,19 +145,20 @@ function onQuestionClicked(categoryIndex, questionIndex, category,question, elem
   $("#modal-points").text(100*(questionIndex + 1));
   $("#modal").attr("hidden", false);
   $("body").css("overflow", "hidden");
+  $("#modal-hint").text("need a hint? (hints remaining: " + hintsLeft + ")");
   let hintBtn = $("#modal-hint");
+  currentHintsLeft = 2;
   hintBtn.on("click", function () {
     displayHint(question.answer);
   });
-  $("#modal-submit").on("click", function (e) {
-    e.preventDefault();
-    let answer = question.answer;
-    let userAnswer = $("#modal-answer").val();
-    let pointValue = 100*(questionIndex + 1);
-    checkAnswer(answer, userAnswer, pointValue, btn);
-    closeModal();
-  });
 }
+
+$("#modal-submit").on("click", function (e) {
+  e.preventDefault();
+  let userAnswer = $("#modal-answer").val();
+  checkAnswer(userAnswer);
+  closeModal();
+});
 
 function closeModal() {
   
