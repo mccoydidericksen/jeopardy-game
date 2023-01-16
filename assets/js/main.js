@@ -30,9 +30,7 @@ if(globalScores){
 }
 
 if(localScores){
-  console.log(localScores)
   let records = JSON.parse(localScores)["score"];
-  console.log(records)
   // sort the scores in descending order
   records.sort(function (a, b) {return b-a;});
   // display the top 10 local scores

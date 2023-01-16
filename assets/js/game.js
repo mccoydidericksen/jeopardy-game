@@ -147,7 +147,7 @@ function onQuestionClicked(categoryIndex, questionIndex, category, question, ele
   currentBtn.attr("data-picked", true);
   currentQuestion = question;
   currentPointValue = 100*(questionIndex + 1);
-  console.log(question, categoryIndex, questionIndex, element);
+  console.log(question);
   $("#modal-answer").val("");
   $("#display-hint").text("");
   $("#modal-question").text(question.question);
@@ -209,8 +209,8 @@ function addScoreToLocalStorage(endScore) {
 }
 
 function endGame() {
+  addScoreToLocalStorage(score);
   $("#end-score").text(score);
-  console.log(questionHistory);
   for(let i = 1; i < questionCount + 1; i++) {
     $("#end-table").append(
       `<tr class="border-t hover:bg-gray-400">
@@ -222,8 +222,10 @@ function endGame() {
     );
   }
   $("#end-modal").attr("hidden", false);
+  $("#end-submit").on("click", function (e) {
+    e.preventDefault();
+    let name = $("#end-input").val();
+    putHighScore(name, score);
+    window.location = "./index.html";
+  });
 }
-
-setTimeout(function () {
-  endGame();
-}, 10 * 1000);
