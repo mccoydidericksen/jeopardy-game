@@ -250,3 +250,7 @@ function endGame() {
     })
   });
 }
+
+$("#end-game").on("click", function () {
+  endGame();
+});
