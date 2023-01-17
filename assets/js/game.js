@@ -23,7 +23,7 @@ fetch(stickerUrl)
         // add sticker to img tag
         $(id).attr("src", sticker);
       } else {
-        $(id).attr("src", "placeholder-url fro no gif found");
+        $(id).attr("src", "https://media4.giphy.com/media/U1mo3PWQHSXyDXrx2f/giphy.gif?rid=giphy.gif&ct=g");
       }
     });
 }
