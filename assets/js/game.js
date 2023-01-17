@@ -242,7 +242,7 @@ function endGame() {
     if (isSubmitted) return;
     isSubmitted = true;
     let name = $("#end-input").val();
-    putHighScore(name, score).then(() => {
+    putHighScore(name, score).then(function(){
       window.location = "./index.html";
     })
   });
