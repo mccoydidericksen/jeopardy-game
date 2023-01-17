@@ -133,8 +133,8 @@ function displayHint() {
 
 function checkAnswer(userAnswer){
   let decisionMessage = "";
-  let processedAnswer = userAnswer.toLowerCase().replace(/\(.+?\)/g, "").replace(/[^a-z]/gi, "")
-  let processedSolution = stripHtml(currentQuestion.answer.toLowerCase()).replace(/\(.+?\)/g,"").replace(/[^a-z]/gi,"")
+  let processedAnswer = userAnswer.toLowerCase().replace(/\(.+?\)/g, "").replace(/[^a-z0-9]/gi, "")
+  let processedSolution = stripHtml(currentQuestion.answer.toLowerCase()).replace(/\(.+?\)/g,"").replace(/[^a-z0-9]/gi,"")
   if (processedAnswer === processedSolution) {
     confetti();
     score += currentPointValue;
