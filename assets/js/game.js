@@ -4,7 +4,10 @@ let currentQuestion = {};
 let currentPointValue = 0;
 let currentBtn = null;
 let hintsLeft = 5;
-let currentHintsLeft = 0;
+let questionHintHistory = {};
+let questionHistory = {};
+let questionCount = 0;
+let hintBtn = $("#modal-hint");
 // function that gets stickers from giphy api
 function getStickers(id,str){
     var giphyApiKey = "gt8q35GPIDL3tWEAEU2xhqNweAgcF7EZ"
@@ -75,12 +78,18 @@ function getRandomTriviaData() {
     return Promise.all(triviaData);
 }
 
-function displayHint(answer) {
+function displayHint() {
+  let answer = currentQuestion.answer;
+  if(questionHintHistory[questionCount]) {
+    questionHintHistory[questionCount]++;
+  } else {
+    questionHintHistory[questionCount] = 1;
+  }
   if (hintsLeft === 0){
     $("#modal-hint").text("no more hints");
     return;
   }
-  if (currentHintsLeft === 0) {
+  else if (questionHintHistory[questionCount] > 2) {
     $("#modal-hint").text("only 2 hints per question");
     return;
   }
@@ -112,18 +121,24 @@ function displayHint(answer) {
   }
   $("#display-hint").text("hint: " + hint.join(""));
   hintsLeft--;
-  currentHintsLeft--;
 }
 
 function checkAnswer(userAnswer){
+  let decisionMessage = "";
   if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
     score += currentPointValue;
     displayScore();
     currentBtn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
+    decisionMessage = "✅";
   } else {
     score -= currentPointValue;
     displayScore();
     currentBtn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
+    decisionMessage = "❌";
+  }
+  questionHistory[questionCount] = {question: currentQuestion.question, answer: currentQuestion.answer, userAnswer: userAnswer, "correct?": decisionMessage};
+  if(questionCount === 20) {
+    endGame();
   }
 }
 
@@ -132,12 +147,13 @@ function displayScore() {
 }
 
 function onQuestionClicked(categoryIndex, questionIndex, category, question, element) {
+  questionCount++;
   currentBtn = $(element);
   if (currentBtn.attr("data-picked")) return;
   currentBtn.attr("data-picked", true);
   currentQuestion = question;
   currentPointValue = 100*(questionIndex + 1);
-  console.log(question, categoryIndex, questionIndex, element);
+  console.log(question);
   $("#modal-answer").val("");
   $("#display-hint").text("");
   $("#modal-question").text(question.question);
@@ -146,12 +162,12 @@ function onQuestionClicked(categoryIndex, questionIndex, category, question, ele
   $("#modal").attr("hidden", false);
   $("body").css("overflow", "hidden");
   $("#modal-hint").text("need a hint? (hints remaining: " + hintsLeft + ")");
-  let hintBtn = $("#modal-hint");
-  currentHintsLeft = 2;
-  hintBtn.on("click", function () {
-    displayHint(question.answer);
-  });
+  $("#display-hint").text("");
 }
+
+hintBtn.on("click", function () {
+  displayHint();
+});
 
 $("#modal-submit").on("click", function (e) {
   e.preventDefault();
@@ -161,7 +177,6 @@ $("#modal-submit").on("click", function (e) {
 });
 
 function closeModal() {
-  
   $("body").attr("style","");
   $("#modal").attr("hidden", true);
 }
@@ -197,4 +212,26 @@ function addScoreToLocalStorage(endScore) {
     };
     localStorage.setItem("totalScoreStringify", JSON.stringify(totalScore));
   }
+}
+
+function endGame() {
+  addScoreToLocalStorage(score);
+  $("#end-score").text(score);
+  for(let i = 1; i < questionCount + 1; i++) {
+    $("#end-table").append(
+      `<tr class="border-t hover:bg-gray-400">
+        <td title="${questionHistory[i].question}" class="underline text-left px-6 py-2">${i}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i].answer}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i].userAnswer}</td>
+        <td class="text-left px-4 py-2">${questionHistory[i]['correct?']}</td>
+      </tr>`
+    );
+  }
+  $("#end-modal").attr("hidden", false);
+  $("#end-submit").on("click", function (e) {
+    e.preventDefault();
+    let name = $("#end-input").val();
+    putHighScore(name, score);
+    window.location = "./index.html";
+  });
 }
