@@ -79,11 +79,11 @@ function getRandomTriviaData() {
 }
 function stripHtml(html) {
   // create a dummy container
-  var tmp = $("<div>");
+  var tmp = document.createElement('div');
   // add the content to the container as html
-  $(html).appendTo(tmp);
-  // return the text of the container without the html
-  return tmp.text()
+  tmp.innerHTML = html;
+   // return the text of the container without the html
+  return tmp.textContent
 }
 
 function displayHint() {
@@ -133,7 +133,9 @@ function displayHint() {
 
 function checkAnswer(userAnswer){
   let decisionMessage = "";
-  if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+  let processedAnswer = userAnswer.toLowerCase().replace(/\(.+?\)/g, "").replace(/[^a-z]/gi, "")
+  let processedSolution = stripHtml(currentQuestion.answer.toLowerCase()).replace(/\(.+?\)/g,"").replace(/[^a-z]/gi,"")
+  if (processedAnswer === processedSolution) {
     confetti();
     score += currentPointValue;
     displayScore();
@@ -145,7 +147,7 @@ function checkAnswer(userAnswer){
     currentBtn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
     decisionMessage = "❌";
   }
-  questionHistory[questionCount] = {question: currentQuestion.question, answer: currentQuestion.answer, userAnswer: userAnswer, "correct?": decisionMessage};
+  questionHistory[questionCount] = {question: currentQuestion.question, answer: processedSolution, userAnswer: userAnswer, "correct?": decisionMessage};
   if(questionCount === 20) {
     endGame();
   }
