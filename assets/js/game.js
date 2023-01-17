@@ -126,6 +126,7 @@ function displayHint() {
 function checkAnswer(userAnswer){
   let decisionMessage = "";
   if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+    confetti();
     score += currentPointValue;
     displayScore();
     currentBtn.attr("class", "bg-green-700 text-white p-10 px-20 m-4 rounded-md");
