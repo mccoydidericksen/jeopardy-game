@@ -235,11 +235,15 @@ function endGame() {
       </tr>`
     );
   }
+  let isSubmitted = false;
   $("#end-modal").attr("hidden", false);
   $("#end-submit").on("click", function (e) {
     e.preventDefault();
+    if (isSubmitted) return;
+    isSubmitted = true;
     let name = $("#end-input").val();
-    putHighScore(name, score);
-    window.location = "./index.html";
+    putHighScore(name, score).then(() => {
+      window.location = "./index.html";
+    })
   });
 }
