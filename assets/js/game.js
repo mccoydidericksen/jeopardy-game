@@ -23,7 +23,7 @@ fetch(stickerUrl)
         // add sticker to img tag
         $(id).attr("src", sticker);
       } else {
-        $(id).attr("src", "placeholder-url fro no gif found");
+        $(id).attr("src", "https://media4.giphy.com/media/U1mo3PWQHSXyDXrx2f/giphy.gif?rid=giphy.gif&ct=g");
       }
     });
 }
@@ -76,6 +76,14 @@ function getRandomTriviaData() {
     }
     // returns multiple promises (from all api calls) as one promise
     return Promise.all(triviaData);
+}
+function stripHtml(html) {
+  // create a dummy container
+  var tmp = $("<div>");
+  // add the content to the container as html
+  $(html).appendTo(tmp);
+  // return the text of the container without the html
+  return tmp.text()
 }
 
 function displayHint() {
@@ -228,11 +236,15 @@ function endGame() {
       </tr>`
     );
   }
+  let isSubmitted = false;
   $("#end-modal").attr("hidden", false);
   $("#end-submit").on("click", function (e) {
     e.preventDefault();
+    if (isSubmitted) return;
+    isSubmitted = true;
     let name = $("#end-input").val();
-    putHighScore(name, score);
-    window.location = "./index.html";
+    putHighScore(name, score).then(function(){
+      window.location = "./index.html";
+    })
   });
 }
