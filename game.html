@@ -58,9 +58,14 @@
                 <button data-q="3" class="bg-gray-500 text-white p-10 px-20 m-4 rounded-md hover:bg-sky-700">500</button>
             </div>
         </div>
-        <div class="container mx-auto mt-24">
-            <div class="box-content h-42 w-52 p-4 border-4 mx-auto text-3xl">
+        <div class="container mx-auto">
+            <div class="box-content h-42 w-52 p-4 border-4 rounded-md mx-auto text-3xl">
                 <p class="text-white ">Score: <span id="score" class="whitespace-no-wrap flex-1">0</span></p>
+            </div>
+            <div class="flex justify-center mt-4">
+                <button id="end-game" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    End Game
+                  </button>
             </div>
         </div>
         <div class="relative z-10" aria-labelledby="Question" role="dialog" aria-modal="true" hidden id="modal">
@@ -91,8 +96,11 @@
                     <h1 class="text-xl p-2"><strong>Score: <span id="end-score">0</span></strong></h1>
                     <p class="text-m p-2">Enter your name below to submit score</p>
                     <input id="end-input" placeholder="Ex. John Doe" class="p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500">
-                    <div class="flex justify-end w-full p-2">
+                    <div class="flex justify-center w-full p-2">
                         <button id="end-submit">submit</button>
+                    </div>
+                    <div class="flex justify-center w-full">
+                        <button id="end-home">back to home</button>
                     </div>
                     <hr class="h-2 border-5 w-full"/>
                     <div class="flex flex-col justify-center items-center bg-gray-600 text-white rounded-lg p-4 m-4">

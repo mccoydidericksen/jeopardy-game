@@ -240,6 +240,9 @@ function endGame() {
   }
   let isSubmitted = false;
   $("#end-modal").attr("hidden", false);
+  $("#end-home").on("click", function (e) {
+    window.location = "./index.html";
+  });
   $("#end-submit").on("click", function (e) {
     e.preventDefault();
     if (isSubmitted) return;
@@ -250,3 +253,7 @@ function endGame() {
     })
   });
 }
+
+$("#end-game").on("click", function () {
+  endGame();
+});
