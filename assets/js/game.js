@@ -86,6 +86,7 @@ function stripHtml(html) {
   return tmp.textContent
 }
 
+let seenhint = "";
 function displayHint() {
   let answer = currentQuestion.answer;
   if(questionHintHistory[questionCount]) {
@@ -106,6 +107,9 @@ function displayHint() {
   let numShow = Math.floor(answer.length / 3);
   for (let i = 0; i < numShow; i++) {
     let rand = Math.floor(Math.random() * answer.length);
+    if (seenhint[rand] === answer[rand]) {
+      continue;
+    }
     if(showList.includes(rand)) {
       i--;
       continue;
@@ -113,13 +117,13 @@ function displayHint() {
     showList.push(rand);
   }
   for (let i = 0; i < answer.length; i++) {
-    if (answer[i] === " ") {
-      hint += " ";
+    if (seenhint[i] === answer[i]) {
+      hint += answer[i];
     }
-    else if (answer[i] === "-"){
-      hint += "-";
-    } else {
+    else if (/[0-9a-z]/.test(answer[i])){
       hint += "_";
+    } else {
+      hint += answer[i];
     }
   }
   hint = hint.split("");
@@ -127,15 +131,15 @@ function displayHint() {
   for (let i = 0; i < showList.length; i++) {
     hint[showList[i]] = answer[showList[i]];
   }
+  seenhint = hint.join('');
   $("#display-hint").text("hint: " + hint.join(""));
   hintsLeft--;
 }
 
 function checkAnswer(userAnswer){
   let decisionMessage = "";
-  let processedAnswer = userAnswer.toLowerCase().replace(/\(.+?\)/g, "").replace(/[^a-z0-9]/gi, "")
-  let processedSolution = stripHtml(currentQuestion.answer.toLowerCase()).replace(/\(.+?\)/g,"").replace(/[^a-z0-9]/gi,"")
-  if (processedAnswer === processedSolution) {
+  let processedAnswer = userAnswer.toLowerCase().replace(/\(.+?\)/g, "").replace(/[^a-z0-9\s]/gi, "")
+  if (processedAnswer === currentQuestion.answer) {
     confetti();
     score += currentPointValue;
     displayScore();
@@ -147,7 +151,7 @@ function checkAnswer(userAnswer){
     currentBtn.attr("class", "bg-red-700 text-white p-10 px-20 m-4 rounded-md");
     decisionMessage = "❌";
   }
-  questionHistory[questionCount] = {question: currentQuestion.question, answer: processedSolution, userAnswer: userAnswer, "correct?": decisionMessage};
+  questionHistory[questionCount] = {question: currentQuestion.question, answer: currentQuestion.answer, userAnswer: userAnswer, "correct?": decisionMessage};
   if(questionCount === 20) {
     endGame();
   }
@@ -163,8 +167,10 @@ function onQuestionClicked(categoryIndex, questionIndex, category, question, ele
   if (currentBtn.attr("data-picked")) return;
   currentBtn.attr("data-picked", true);
   currentQuestion = question;
+  currentQuestion.answer = stripHtml(currentQuestion.answer.toLowerCase()).replace(/\(.+?\)/g,"").replace(/[^a-z0-9\s]/gi,"")
   currentPointValue = 100*(questionIndex + 1);
   console.log(question);
+  seenhint = "";
   $("#modal-answer").val("");
   $("#display-hint").text("");
   $("#modal-question").text(question.question);
@@ -197,7 +203,7 @@ function closeModal() {
 getRandomTriviaData().then(function (categories) {
     for (let i = 0; i < categories.length; i++){
         getStickers("#img-" + (i + 1), encodeURIComponent(categories[i].category))
-        let children = grid.children().eq(i);
+
         $("#desc-"+(i+1)).text(categories[i].category)
         let x = $("button[data-q=" + i + "]");
         x.each(function (index, element) {
